@@ -141,3 +141,145 @@ function sumFibs(num) {
 
   return sum;
 }
+
+// Sum All Prime Numbers
+function getPrimes(max) {
+  // Sieve of Eratosthenes
+  let sieve = [];
+  let primes = [];
+
+  for (let i = 2; i <= max; i++) {
+    if (!sieve[i]) {
+      primes.push(i);
+      for (let j = i + i; j <= max; j += i) {
+        sieve[j] = true;
+      }
+    }
+  }
+
+  return primes;
+}
+
+function sumPrimes(num) {
+  let primeArr = getPrimes(num);
+  return primeArr.reduce((a, b) => a + b);
+}
+
+// Smalled Common Multiple
+function swapElements(arr) {
+  let temp = arr[0];
+  arr[0] = arr[1];
+  arr[1] = temp;
+
+  return arr;
+}
+
+function findGCD(a, b) {
+  if (!b) {
+    return a;
+  }
+
+  return findGCD(b, a % b);
+}
+
+function findLowestCommonMultiple(a, b) {
+  return (a * b)/findGCD(a, b);
+}
+
+function createFullRangeArr(a, b) {
+  let allNumsArr = [];
+  let num = a;
+  while (num <= b) {
+    allNumsArr.push(num);
+    num++;
+  }
+
+  return allNumsArr;
+}
+
+function smallestCommons(arr) {
+  if (arr[0] > arr[1]) {
+    swapElements(arr);
+  }
+
+  let rangeArr = createFullRangeArr(arr[0], arr[1]);
+
+  let lcm = rangeArr[0];
+  for (i = 1; i < rangeArr.length; i++) {
+    let GCD = findGCD(lcm, rangeArr[i]);
+    lcm = (lcm * rangeArr[i]) / GCD;
+  }
+
+  return lcm;
+}
+
+// Finders Keepers
+function findElement(arr, func) {
+  return arr.find(func);
+}
+
+// OR
+
+function findElement(arr, func) {
+  return arr.filter(func)[0];
+}
+
+// Drop it
+function dropElements(arr, func) {
+  let start = arr.findIndex(func);
+  if (start > -1) {
+    return arr.slice(start);
+  }
+
+  return [];
+}
+
+// Steamroller
+
+function steamrollArray(arr) {
+  let flatArr = [];
+
+  function flattenArray(arr) {
+    arr.forEach(function(element) {
+      if (Array.isArray(element)) {
+        flattenArray(element);
+      } else {
+        flatArr.push(element);
+      }
+    });
+  }
+
+  flattenArray(arr);
+  return flatArr;
+}
+
+// Binary Agent
+function binaryAgent(str) {
+  let wordArray = str.split(' ');
+  wordArray = wordArray.map(word => parseInt(word, 2));
+  wordArray = wordArray.map(word => String.fromCharCode(word));
+
+  return wordArray.join('');
+}
+
+// Everything Be True
+function truthCheck(collection, pre) {
+  return collection.every(function(obj) {
+    return obj[pre];
+  });
+}
+
+// Add Together
+function addTogether(...arr) {
+  if (arr.length === 1 && typeof(arr[0]) === 'number') {
+    return function (num) {
+      return typeof(num) === 'number' ? arr[0] + num : undefined;
+    };
+  }
+  if (typeof(arr[1]) === 'number') {
+    return arr.reduce((a, b) => a + b);
+  }
+
+  return undefined;
+}
+}
